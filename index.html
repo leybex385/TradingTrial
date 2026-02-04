@@ -1,43 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NexusTrade | Advanced Crypto Exchange</title>
-    
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
     <!-- Chart Library -->
     <script src="https://unpkg.com/lightweight-charts/dist/lightweight-charts.standalone.production.js"></script>
 
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body class="dark-theme">
     <div class="app-container">
         <!-- Navigation Sidebar -->
         <nav class="sidebar glass-panel">
             <div class="logo">
                 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#3B82F6"/>
-                    <path d="M2 23L16 30L30 23V9L16 16L2 9V23Z" fill="#2563EB" fill-opacity="0.5"/>
-                    <circle cx="16" cy="16" r="4" fill="#60A5FA"/>
+                    <path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#3B82F6" />
+                    <path d="M2 23L16 30L30 23V9L16 16L2 9V23Z" fill="#2563EB" fill-opacity="0.5" />
+                    <circle cx="16" cy="16" r="4" fill="#60A5FA" />
                 </svg>
             </div>
             <div class="nav-items">
                 <button class="nav-item active" title="Trade">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3"/></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M3 3v18h18" />
+                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
+                    </svg>
                 </button>
                 <button class="nav-item" title="Wallet">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M12 12h.01"/></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <path d="M12 12h.01" />
+                    </svg>
                 </button>
                 <button class="nav-item" title="Analytics">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M18 20V10" />
+                        <path d="M12 20V4" />
+                        <path d="M6 20v-6" />
+                    </svg>
                 </button>
                 <button class="nav-item" title="Settings">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="3" />
+                        <path
+                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
+                    </svg>
                 </button>
             </div>
             <div class="user-avatar">
@@ -69,7 +87,11 @@
             </div>
             <div class="header-actions">
                 <button class="btn-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
+                        </path>
+                    </svg>
                     <span class="notification-dot"></span>
                 </button>
                 <button class="btn-primary">Connect Wallet</button>
@@ -115,7 +137,7 @@
                 <div class="book-content" id="order-book-content">
                     <!-- Dynamic Asks (Red) -->
                     <div class="asks-container" id="asks-list"></div>
-                    
+
                     <div class="spread-info">
                         <span id="current-price-spread" class="price-up">48,234.50</span>
                         <span class="spread-value">0.10%</span>
@@ -133,7 +155,7 @@
                     <button class="tab-btn" data-tab="market">Market</button>
                     <button class="tab-btn" data-tab="stop">Stop</button>
                 </div>
-                
+
                 <div class="trade-actions">
                     <button class="side-btn buy active">Buy</button>
                     <button class="side-btn sell">Sell</button>
@@ -152,7 +174,7 @@
                             <input type="number" placeholder="0.00">
                         </div>
                     </div>
-                    
+
                     <div class="slider-container">
                         <div class="slider-track">
                             <div class="slider-fill"></div>
@@ -172,12 +194,16 @@
                             <span>0.00 USDT</span>
                         </div>
                         <div class="row">
-                            <span>Avail</span>
-                            <span>10,432.50 USDT</span>
+                            <span>Avail USDT</span>
+                            <span id="usdt-balance">10,000.00</span>
+                        </div>
+                        <div class="row">
+                            <span>Avail BTC</span>
+                            <span id="btc-balance">0.0000</span>
                         </div>
                     </div>
 
-                    <button class="btn-execute buy-bg">Log In to Trade</button>
+                    <button class="btn-execute buy-bg">Buy BTC</button>
                 </div>
             </section>
 
@@ -185,6 +211,9 @@
             <section class="history-panel glass-panel">
                 <div class="panel-header">
                     <h3>Recent Trades</h3>
+                    <div class="pnl-display" id="pnl-container" style="display:none; font-size: 0.9em;">
+                        PnL: <span id="pnl-value">0.00</span> (<span id="pnl-percent">0.00%</span>)
+                    </div>
                 </div>
                 <div class="table-container">
                     <table>
@@ -204,6 +233,9 @@
         </main>
     </div>
 
+    <div id="toast-container"></div>
+
     <script src="app.js"></script>
 </body>
+
 </html>
