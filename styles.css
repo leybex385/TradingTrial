@@ -3,13 +3,13 @@
     --bg-panel: rgba(30, 35, 41, 0.6);
     --bg-panel-hover: rgba(43, 49, 57, 0.6);
     --border-color: rgba(255, 255, 255, 0.05);
-    
+
     --primary-blue: #3b82f6;
     --primary-accent: #60a5fa;
-    
+
     --text-primary: #eaecef;
     --text-secondary: #848e9c;
-    
+
     --color-up: #0ecb81;
     --color-down: #f6465d;
     --color-up-bg: rgba(14, 203, 129, 0.12);
@@ -17,7 +17,7 @@
 
     --font-heading: 'Outfit', sans-serif;
     --font-mono: 'JetBrains Mono', monospace;
-    
+
     --header-height: 60px;
     --sidebar-width: 60px;
 }
@@ -35,7 +35,7 @@ body {
     height: 100vh;
     overflow: hidden;
     /* Rich aesthetic background gradient */
-    background-image: 
+    background-image:
         radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
         radial-gradient(circle at 90% 90%, rgba(14, 203, 129, 0.05) 0%, transparent 40%);
 }
@@ -45,7 +45,7 @@ body {
     grid-template-columns: var(--sidebar-width) 1fr;
     grid-template-rows: var(--header-height) 1fr;
     height: 100vh;
-    grid-template-areas: 
+    grid-template-areas:
         "sidebar header"
         "sidebar main";
 }
@@ -90,7 +90,8 @@ body {
     transition: all 0.2s ease;
 }
 
-.nav-item:hover, .nav-item.active {
+.nav-item:hover,
+.nav-item.active {
     color: var(--primary-blue);
     background: rgba(59, 130, 246, 0.1);
 }
@@ -158,8 +159,13 @@ body {
     font-weight: 500;
 }
 
-.up .value { color: var(--color-up); }
-.down .value { color: var(--color-down); }
+.up .value {
+    color: var(--color-up);
+}
+
+.down .value {
+    color: var(--color-down);
+}
 
 .btn-primary {
     background: var(--primary-blue);
@@ -182,7 +188,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 300px 320px;
     grid-template-rows: 60% 1fr;
-    grid-template-areas: 
+    grid-template-areas:
         "chart orderbook trade"
         "chart history trade";
     gap: 4px;
@@ -260,7 +266,8 @@ body {
     overflow: hidden;
 }
 
-.asks-container, .bids-container {
+.asks-container,
+.bids-container {
     flex: 1;
     overflow: hidden;
     display: flex;
@@ -295,11 +302,21 @@ body {
     opacity: 0.2;
 }
 
-.ask-row .depth-visual { background: var(--color-down); }
-.bid-row .depth-visual { background: var(--color-up); }
+.ask-row .depth-visual {
+    background: var(--color-down);
+}
 
-.price-text.down { color: var(--color-down); }
-.price-text.up { color: var(--color-up); }
+.bid-row .depth-visual {
+    background: var(--color-up);
+}
+
+.price-text.down {
+    color: var(--color-down);
+}
+
+.price-text.up {
+    color: var(--color-up);
+}
 
 .spread-info {
     padding: 8px 16px;
@@ -341,7 +358,7 @@ body {
 
 .trade-actions {
     display: flex;
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     padding: 2px;
     border-radius: 4px;
     margin-bottom: 24px;
@@ -380,7 +397,7 @@ body {
 }
 
 .input-wrapper {
-    background: rgba(255,255,255,0.05);
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid transparent;
     border-radius: 8px;
     padding: 10px 12px;
@@ -413,8 +430,13 @@ body {
     cursor: pointer;
 }
 
-.buy-bg { background: var(--color-up); }
-.sell-bg { background: var(--color-down); }
+.buy-bg {
+    background: var(--color-up);
+}
+
+.sell-bg {
+    background: var(--color-down);
+}
 
 /* History */
 .history-panel {
@@ -446,7 +468,9 @@ th {
     background: #151a21;
 }
 
-th:first-child { text-align: left; }
+th:first-child {
+    text-align: left;
+}
 
 td {
     text-align: right;
@@ -454,15 +478,25 @@ td {
     color: var(--text-primary);
 }
 
-td:first-child { text-align: left; color: var(--text-secondary); }
+td:first-child {
+    text-align: left;
+    color: var(--text-secondary);
+}
 
 /* Scrollbar */
 ::-webkit-scrollbar {
     width: 4px;
     height: 4px;
 }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #2b3139; border-radius: 2px; }
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #2b3139;
+    border-radius: 2px;
+}
 
 /* Responsive Adjustments */
 @media (max-width: 1200px) {
@@ -472,5 +506,107 @@ td:first-child { text-align: left; color: var(--text-secondary); }
         grid-template-areas:
             "chart trade"
             "history orderbook";
+    }
+}
+
+/* Notification Toasts */
+#toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.toast {
+    background: rgba(30, 35, 41, 0.95);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-blue);
+    padding: 16px 24px;
+    border-radius: 8px;
+    color: white;
+    font-size: 0.9rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    animation: slideIn 0.3s ease-out forwards;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 300px;
+}
+
+.toast.success {
+    border-left-color: var(--color-up);
+}
+
+.toast.error {
+    border-left-color: var(--color-down);
+}
+
+.toast-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.toast-time {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-left: auto;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+}
+
+/* Portfolio Updates */
+.pnl-display {
+    color: var(--text-secondary);
+}
+
+.pnl-positive {
+    color: var(--color-up);
+}
+
+.pnl-negative {
+    color: var(--color-down);
+}
+
+/* Input Focus States */
+.input-wrapper.error {
+    border-color: var(--color-down);
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
     }
 }
