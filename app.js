@@ -42,11 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
             timeScale: { borderColor: 'rgba(197, 203, 206, 0.1)', timeVisible: true },
         });
 
-        const candleSeries = chart.addCandlestickSeries({
+        const candleSeries = chart.addSeries(LightweightCharts.CandlestickSeries, {
             upColor: '#0ecb81', downColor: '#f6465d',
             borderDownColor: '#f6465d', borderUpColor: '#0ecb81',
             wickDownColor: '#f6465d', wickUpColor: '#0ecb81',
         });
+
 
         window.addEventListener('resize', () => {
             chart.resize(chartContainer.clientWidth, chartContainer.clientHeight);
