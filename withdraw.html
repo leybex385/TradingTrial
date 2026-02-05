@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw - Avendus Capital</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background-color: #f1f5f9;
+        }
+
+        .navbar {
+            background-color: #1e56a0;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .white-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #1e293b;
+        }
+
+        .warning-box {
+            background: #fef2f2;
+            border: 1px solid #fee2e2;
+            border-radius: 8px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .warning-title {
+            color: #ef4444;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-text {
+            color: #b91c1c;
+            font-size: 0.9rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .balance-tag {
+            background: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9rem;
+            display: inline-flex;
+            gap: 1rem;
+            color: #ef4444;
+            border: 1px solid #fee2e2;
+        }
+
+        .account-selector {
+            border: 2px solid #3b82f6;
+            background: #f0f7ff;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .account-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .account-info p {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #10b981;
+        }
+
+        .currency-tag {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #93c5fd;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: not-allowed;
+            margin-bottom: 1rem;
+        }
+
+        .error-footer {
+            color: #f59e0b;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .policy-text {
+            color: #64748b;
+            text-align: center;
+            font-size: 0.75rem;
+        }
+
+        /* Records Style */
+        .records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .records-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1e56a0;
+            font-weight: 700;
+        }
+
+        .refresh-btn {
+            background: #1e56a0;
+            color: white;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+        }
+
+        .pill {
+            padding: 0.3rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            background: white;
+            color: #64748b;
+        }
+
+        .pill.active {
+            background: #1e56a0;
+            color: white;
+            border-color: #1e56a0;
+        }
+
+        .record-item {
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .record-bank {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+
+        .record-date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        .record-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-align: right;
+        }
+
+        .status-badge {
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 0.3rem;
+        }
+
+        .status-badge.rejected {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .status-badge.approved {
+            background: #f0fdf4;
+            color: #10b981;
+        }
+
+        /* Terms */
+        .terms-title {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .term-item {
+            margin-bottom: 1.2rem;
+        }
+
+        .term-item h5 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+            color: #1e293b;
+        }
+
+        .term-item p {
+            font-size: 0.75rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="navbar">
+        <a href="market.html" class="back-btn"><i data-lucide="chevron-left"></i></a>
+        <h1>Withdraw</h1>
+    </header>
+
+    <main class="container">
+        <div class="left-col">
+            <section class="white-card">
+                <h2 class="section-title">Trading accounts</h2>
+                <div class="warning-box">
+                    <div class="warning-title">Outstanding balance detected</div>
+                    <p class="warning-text">You cannot withdraw until outstanding balances are cleared.</p>
+                    <div class="balance-tag">
+                        <span>INRDD08029 - INR</span>
+                        <span>• ₹83,34,495.52</span>
+                    </div>
+                </div>
+
+                <div class="account-selector">
+                    <div class="account-info">
+                        <h4>INRDD08029</h4>
+                        <p>₹0.00</p>
+                    </div>
+                    <div class="currency-tag">IN</div>
+                </div>
+
+                <button class="submit-btn" disabled>Submit Withdrawal</button>
+                <div class="error-footer">You cannot withdraw until outstanding balances are cleared.</div>
+                <div class="policy-text">By proceeding, you agree to our deposit terms and conditions.</div>
+            </section>
+
+            <section class="white-card">
+                <div class="records-header">
+                    <div class="records-title"><i data-lucide="circle-dollar-sign"></i> Withdraw Records</div>
+                    <button class="refresh-btn"><i data-lucide="rotate-cw"></i></button>
+                </div>
+
+                <div class="filter-pills">
+                    <div class="pill active">All</div>
+                    <div class="pill">Success</div>
+                    <div class="pill">Pending</div>
+                    <div class="pill">Rejected</div>
+                </div>
+
+                <div class="records-list" id="withdrawRecords">
+                    <!-- Dynamic records will be injected here -->
+                </div>
+            </section>
+        </div>
+
+        <aside class="white-card">
+            <h3 class="terms-title">Withdrawal Terms and Conditions</h3>
+            <div class="term-item">
+                <h5>1. Minimum Withdrawal Amount</h5>
+                <p>The minimum withdrawal amount is 100. Requests below this threshold will not be processed.</p>
+            </div>
+            <div class="term-item">
+                <h5>2. Withdrawal Time Window</h5>
+                <p>Withdrawals can be submitted Monday to Friday (excluding public holidays) between 09:30 and 15:00.
+                    Requests made outside of this time window will be processed on the next business day.</p>
+            </div>
+            <div class="term-item">
+                <h5>3. Bank Information Verification</h5>
+                <p>Users must ensure that all bank account information provided is accurate and up-to-date. The company
+                    is not responsible for any failed, delayed, or misdirected transfers resulting from incorrect or
+                    outdated bank details.</p>
+            </div>
+            <div class="term-item">
+                <h5>4. Settlement Time</h5>
+                <p>Withdrawal requests are typically processed within 24 to 48 hours after approval. The actual
+                    crediting time may vary depending on the policies and processing capabilities of your financial
+                    institution.</p>
+            </div>
+            <div class="term-item">
+                <h5>5. Bank Policies and Conditions</h5>
+                <p>Please note the following conditions regarding bank withdrawals: Processing times and procedures may
+                    vary among financial institutions. Additional identity or compliance verification may be required
+                    before processing certain withdrawals.</p>
+            </div>
+            <div class="term-item">
+                <h5>6. Compliance and Review</h5>
+                <p>All withdrawal requests are subject to compliance checks, anti-money laundering (AML) monitoring, and
+                    internal risk control procedures. Withdrawals found to be linked to suspicious activity may be
+                    temporarily withheld pending investigation.</p>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        const withdrawData = [
+            { bank: 'SBI', date: '01 Jan 2026 10:41', amount: '₹50,00,000.00', status: 'Rejected' },
+            { bank: 'SBI', date: '24 Dec 2025 13:50', amount: '₹3,00,000.00', status: 'Rejected' },
+            { bank: 'SBI', date: '19 Dec 2025 14:56', amount: '₹50,000.00', status: 'Approved' },
+            { bank: 'SBI', date: '10 Dec 2025 11:49', amount: '₹40,000.00', status: 'Approved' }
+        ];
+
+        function renderWithdrawals(filter = 'All') {
+            const list = document.getElementById('withdrawRecords');
+            list.innerHTML = '';
+
+            const filtered = filter === 'All'
+                ? withdrawData
+                : withdrawData.filter(r => {
+                    if (filter === 'Success') return r.status === 'Approved';
+                    return r.status === filter;
+                });
+
+            filtered.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'record-item';
+                item.innerHTML = `
+                    <div>
+                        <div class="record-bank">${record.bank}</div>
+                        <div class="record-date">${record.date}</div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div class="record-amount">${record.amount}</div>
+                        <span class="status-badge ${record.status.toLowerCase()}">${record.status}</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        const pills = document.querySelectorAll('.pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                renderWithdrawals(pill.textContent);
+            });
+        });
+
+        renderWithdrawals();
+    </script>
+</body>
+
+</html>
