@@ -4,238 +4,502 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NexusTrade | Advanced Crypto Exchange</title>
-
-    <!-- Fonts -->
+    <title>Market Dashboard - Premium Trading Experience</title>
+    <meta name="description"
+        content="Access real-time market summaries, breaking news, and personalized stock recommendations on our premium financial dashboard.">
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
-        rel="stylesheet">
-
-    <!-- Chart Library -->
-    <script src="lightweight-charts.js"></script>
-
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="db.js"></script>
 </head>
 
-<body class="dark-theme">
-    <div class="app-container">
-        <!-- Navigation Sidebar -->
-        <nav class="sidebar glass-panel">
-            <div class="logo">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M16 2L2 9L16 16L30 9L16 2Z" fill="#3B82F6" />
-                    <path d="M2 23L16 30L30 23V9L16 16L2 9V23Z" fill="#2563EB" fill-opacity="0.5" />
-                    <circle cx="16" cy="16" r="4" fill="#60A5FA" />
-                </svg>
-            </div>
-            <div class="nav-items">
-                <button class="nav-item active" title="Trade">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M3 3v18h18" />
-                        <path d="M18.7 8l-5.1 5.2-2.8-2.7L7 14.3" />
-                    </svg>
-                </button>
-                <button class="nav-item" title="Wallet">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <rect x="2" y="4" width="20" height="16" rx="2" />
-                        <path d="M12 12h.01" />
-                    </svg>
-                </button>
-                <button class="nav-item" title="Analytics">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path d="M18 20V10" />
-                        <path d="M12 20V4" />
-                        <path d="M6 20v-6" />
-                    </svg>
-                </button>
-                <button class="nav-item" title="Settings">
-                    <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="3" />
-                        <path
-                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z" />
-                    </svg>
-                </button>
-            </div>
-            <div class="user-avatar">
-                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Felix" alt="User">
-            </div>
-        </nav>
-
-        <!-- Top Header -->
-        <header class="top-bar glass-panel">
-            <div class="market-selector">
-                <div class="pair-info">
-                    <span class="pair-name">BTC/USDT</span>
-                    <span class="pair-badge">10x</span>
-                </div>
-                <div class="market-stats">
-                    <div class="stat-item price up">
-                        <span class="label">Last Price</span>
-                        <span class="value" id="current-price">48,234.50</span>
-                    </div>
-                    <div class="stat-item change up">
-                        <span class="label">24h Change</span>
-                        <span class="value">+2.45%</span>
-                    </div>
-                    <div class="stat-item volume">
-                        <span class="label">24h Volume</span>
-                        <span class="value">1.2B USDT</span>
-                    </div>
+<body>
+    <div class="app-wrapper">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-left">
+                <div class="search-container">
+                    <i data-lucide="search" class="search-icon"></i>
+                    <input type="text" placeholder="Ctrl K" class="search-input">
                 </div>
             </div>
-            <div class="header-actions">
-                <button class="btn-icon">
-                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9">
-                        </path>
-                    </svg>
-                    <span class="notification-dot"></span>
-                </button>
-                <button class="btn-primary">Connect Wallet</button>
+            <nav class="nav">
+                <a href="index.html" class="nav-item active" id="navHome"><i data-lucide="home"></i> Home</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('market.html')" class="nav-item"><i
+                        data-lucide="trending-up"></i> Market</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i
+                        data-lucide="compass"></i> Discover</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i
+                        data-lucide="briefcase"></i> Portfolio</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i data-lucide="user"></i>
+                    Me</a>
+            </nav>
+            <div class="header-right">
+                <button class="settings-btn" onclick="openSettings()"><i data-lucide="settings"></i></button>
             </div>
         </header>
 
-        <!-- Main Grid -->
-        <main class="dashboard-grid">
-            <!-- Chart Section -->
-            <section class="chart-container glass-panel">
-                <div class="chart-header">
-                    <div class="time-frames">
-                        <button>1m</button>
-                        <button>5m</button>
-                        <button class="active">15m</button>
-                        <button>1h</button>
-                        <button>4h</button>
-                        <button>1D</button>
+        <!-- Auth Banner (shown when logged out) -->
+        <div class="auth-banner" id="loggedOutBanner">
+            <p>This section is only available to authenticated users.</p>
+            <a href="login.html" class="login-btn">Please log in to continue</a>
+        </div>
+
+        <!-- Portfolio Summary (shown when logged in) -->
+        <div class="portfolio-summary-bar" id="portfolioBar" style="display: none;">
+            <div class="user-greeting">
+                <div class="user-avatar">91</div>
+                <div class="user-text">
+                    <h3>Sharad Madhukar Mali</h3>
+                    <p>Good afternoon — keep going.</p>
+                </div>
+                <button class="view-toggle"><i data-lucide="eye"></i></button>
+            </div>
+
+            <div class="portfolio-stats">
+                <div class="stat-item">
+                    <span class="stat-label">Current Portfolio Value</span>
+                    <span class="stat-value green">₹4,64,10,128.48</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Invested Value</span>
+                    <span class="stat-value blue">₹1,18,14,664.99</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">Today</span>
+                    <span class="stat-value green-subtle">0.00%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">This Week</span>
+                    <span class="stat-value green-subtle">0.00%</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">This Month</span>
+                    <span class="stat-value green-subtle">0.00%</span>
+                </div>
+            </div>
+
+            <div class="action-btns">
+                <a href="deposit.html" class="btn-deposit"><i data-lucide="plus-circle"></i> Deposit</a>
+                <a href="withdraw.html" class="btn-withdraw"><i data-lucide="minus-circle"></i> Withdraw</a>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-grid">
+            <!-- Left Column: Market Summary -->
+            <section class="card market-summary">
+                <div class="card-header">
+                    <div class="header-icon"><i data-lucide="activity"></i></div>
+                    <h2>Market Summary</h2>
+                </div>
+                <div class="market-cards-grid">
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">SENSEX</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">83,340.35</div>
+                        <div class="stock-change negative">-477.34 (-0.57%)</div>
                     </div>
-                    <div class="chart-tools">
-                        <button>Indicators</button>
-                        <button>Settings</button>
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">NIFTY 50</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">25,627.1</div>
+                        <div class="stock-change negative">-148.9 (-0.58%)</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">NIFTY BANK</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">60,023.4</div>
+                        <div class="stock-change negative">-214.75 (-0.36%)</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">NIFTY SMLCAP</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">16,949.3</div>
+                        <div class="stock-change negative">-255.8 (-1.49%)</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">NIFTY MIDCAP</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">59,324.05</div>
+                        <div class="stock-change negative">-359.55 (-0.6%)</div>
+                    </div>
+                    <div class="stock-card">
+                        <div class="stock-info">
+                            <img src="https://flagcdn.com/w40/in.png" srcset="https://flagcdn.com/w80/in.png 2x"
+                                width="20" alt="India" class="flag-icon">
+                            <span class="stock-name">VIX</span>
+                            <span class="stock-ticker">ININ</span>
+                        </div>
+                        <div class="stock-value">15.1</div>
+                        <div class="stock-change positive">+1.46 (+10.73%)</div>
                     </div>
                 </div>
-                <div id="tv-chart"></div>
+                <div class="card-footer">
+                    <span>Stocks Sector</span>
+                    <a href="#" class="view-all">View All</a>
+                </div>
+                <div class="market-auth-prompt" id="marketAuthPrompt">
+                    <p>Please log in to view more</p>
+                    <a href="login.html" class="login-btn-small">Please log in to continue</a>
+                </div>
             </section>
 
-            <!-- Order Book -->
-            <section class="order-book glass-panel">
-                <div class="panel-header">
-                    <h3>Order Book</h3>
-                    <div class="order-tabs">
-                        <button class="active">ALL</button>
-                        <button>Bids</button>
-                        <button>Asks</button>
+            <!-- Right Column: News & Recommendation -->
+            <div class="sidebar">
+                <section class="card breaking-news">
+                    <div class="card-header">
+                        <div class="header-icon blue"><i data-lucide="newspaper"></i></div>
+                        <h2>Breaking News</h2>
                     </div>
-                </div>
-                <div class="book-header">
-                    <span>Price</span>
-                    <span>Amount</span>
-                    <span>Total</span>
-                </div>
-                <div class="book-content" id="order-book-content">
-                    <!-- Dynamic Asks (Red) -->
-                    <div class="asks-container" id="asks-list"></div>
-
-                    <div class="spread-info">
-                        <span id="current-price-spread" class="price-up">48,234.50</span>
-                        <span class="spread-value">0.10%</span>
-                    </div>
-
-                    <!-- Dynamic Bids (Green) -->
-                    <div class="bids-container" id="bids-list"></div>
-                </div>
-            </section>
-
-            <!-- Trading Panel -->
-            <section class="trade-panel glass-panel">
-                <div class="trade-tabs">
-                    <button class="tab-btn active" data-tab="limit">Limit</button>
-                    <button class="tab-btn" data-tab="market">Market</button>
-                    <button class="tab-btn" data-tab="stop">Stop</button>
-                </div>
-
-                <div class="trade-actions">
-                    <button class="side-btn buy active">Buy</button>
-                    <button class="side-btn sell">Sell</button>
-                </div>
-
-                <div class="trade-form">
-                    <div class="input-group">
-                        <label>Price (USDT)</label>
-                        <div class="input-wrapper">
-                            <input type="number" value="48200.00">
+                    <div class="news-carousel">
+                        <div class="news-item">
+                            <div class="image-placeholder">
+                                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=800"
+                                    alt="May Habib">
+                                <div class="image-overlay">
+                                    <span class="time-ago">51m ago</span>
+                                    <h3>May Habib</h3>
+                                </div>
+                            </div>
+                            <div class="carousel-nav">
+                                <button class="nav-prev"><i data-lucide="chevron-left"></i></button>
+                                <button class="nav-next"><i data-lucide="chevron-right"></i></button>
+                            </div>
+                            <div class="carousel-dots">
+                                <span class="dot active"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                                <span class="dot"></span>
+                            </div>
                         </div>
                     </div>
-                    <div class="input-group">
-                        <label>Amount (BTC)</label>
-                        <div class="input-wrapper">
-                            <input type="number" placeholder="0.00">
+                </section>
+
+                <section class="card recommendation">
+                    <div class="card-header">
+                        <div class="header-icon blue"><i data-lucide="thumbs-up"></i></div>
+                        <h2>Recommendation</h2>
+                    </div>
+                    <div class="recommendation-list">
+                        <div class="rec-item">
+                            <div class="rec-thumb"></div>
+                            <div class="rec-content">
+                                <div class="rec-meta">
+                                    <span class="category">Business</span>
+                                    <span class="author">Stephan Jacobs</span>
+                                    <span class="date">Feb 5, 2026</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
-                    <div class="slider-container">
-                        <div class="slider-track">
-                            <div class="slider-fill"></div>
-                            <div class="slider-thumb"></div>
-                        </div>
-                        <div class="percentages">
-                            <span>25%</span>
-                            <span>50%</span>
-                            <span>75%</span>
-                            <span>100%</span>
-                        </div>
-                    </div>
-
-                    <div class="order-summary">
-                        <div class="row">
-                            <span>Total</span>
-                            <span>0.00 USDT</span>
-                        </div>
-                        <div class="row">
-                            <span>Avail USDT</span>
-                            <span id="usdt-balance">10,000.00</span>
-                        </div>
-                        <div class="row">
-                            <span>Avail BTC</span>
-                            <span id="btc-balance">0.0000</span>
-                        </div>
-                    </div>
-
-                    <button class="btn-execute buy-bg">Buy BTC</button>
-                </div>
-            </section>
-
-            <!-- Recent Trades / Positions -->
-            <section class="history-panel glass-panel">
-                <div class="panel-header">
-                    <h3>Recent Trades</h3>
-                    <div class="pnl-display" id="pnl-container" style="display:none; font-size: 0.9em;">
-                        PnL: <span id="pnl-value">0.00</span> (<span id="pnl-percent">0.00%</span>)
-                    </div>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Time</th>
-                                <th>Price</th>
-                                <th>Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody id="trade-history">
-                            <!-- Populated by JS -->
-                        </tbody>
-                    </table>
-                </div>
-            </section>
+                </section>
+            </div>
         </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-left">
+                © 2025. Reserved.
+            </div>
+            <div class="footer-right">
+                <span class="timezone">
+                    <img src="https://flagcdn.com/w40/in.png" width="20" alt="India" class="flag-icon"> 12:51:09
+                    GMT+5:30
+                </span>
+                <a href="#" class="cookie-pref">Cookie Preference</a>
+            </div>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+    <script>
+        lucide.createIcons();
+
+        // Initial Auth State Check
+        const urlParams = new URLSearchParams(window.location.search);
+        const user = DB.getCurrentUser();
+        const isLoggedIn = user || urlParams.get('logged_in') === 'true';
+
+        if (isLoggedIn) {
+            document.getElementById('loggedOutBanner').style.display = 'none';
+            document.getElementById('marketAuthPrompt').style.display = 'none';
+            document.getElementById('portfolioBar').style.display = 'flex';
+        } else {
+            document.getElementById('loggedOutBanner').style.display = 'flex';
+            document.getElementById('marketAuthPrompt').style.display = 'block';
+            document.getElementById('portfolioBar').style.display = 'none';
+
+            // Show the red alert on initial load if guest (optional, based on screenshot)
+            setTimeout(() => showAlert(), 500);
+        }
+
+        // Guest Interaction Logic
+        function handleGuestClick(targetUrl) {
+            if (isLoggedIn) {
+                if (targetUrl !== '#') window.location.href = targetUrl;
+            } else {
+                showAlert();
+            }
+        }
+
+        function showAlert() {
+            const container = document.getElementById('topAlertContainer');
+            container.style.display = 'block';
+            lucide.createIcons();
+
+            // Auto-hide after 5 seconds
+            setTimeout(() => closeAlert(), 5000);
+        }
+
+        function closeAlert() {
+            document.getElementById('topAlertContainer').style.display = 'none';
+        }
+
+        function showToast(message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `
+                <i data-lucide="alert-circle"></i>
+                <span>${message}</span>
+                <i data-lucide="x" class="toast-close" onclick="this.parentElement.remove()"></i>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        // Settings Modal Logic
+        function openSettings() {
+            document.getElementById('settingsModal').style.display = 'flex';
+            lucide.createIcons();
+        }
+
+        function closeSettings() {
+            document.getElementById('settingsModal').style.display = 'none';
+        }
+
+        // Internal Reset Password Logic
+        function openResetPassword() {
+            closeSettings();
+            document.getElementById('resetPasswordModal').style.display = 'flex';
+            lucide.createIcons();
+        }
+
+        function closeResetPassword() {
+            document.getElementById('resetPasswordModal').style.display = 'none';
+        }
+
+        function toggleInternalPass(id, icon) {
+            const input = document.getElementById(id);
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.setAttribute('data-lucide', 'eye');
+            } else {
+                input.type = 'password';
+                icon.setAttribute('data-lucide', 'eye-off');
+            }
+            lucide.createIcons();
+        }
+
+        async function handleInternalReset() {
+            const newPass = document.getElementById('newPassInternal').value;
+            const confirmPass = document.getElementById('confirmPassInternal').value;
+
+            if (newPass !== confirmPass) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            const user = DB.getCurrentUser();
+            const res = await DB.resetPassword(user.mobile, newPass);
+
+            if (!res.success) {
+                alert(res.message);
+                return;
+            }
+
+            const btn = event.target;
+            btn.textContent = 'Processing...';
+            btn.style.opacity = '0.7';
+
+            setTimeout(() => {
+                alert('Your password has been changed successfully!');
+                closeResetPassword();
+                btn.textContent = 'Update Password';
+                btn.style.opacity = '1';
+            }, 1500);
+        }
+
+        function syncUserData() {
+            const user = DB.getCurrentUser();
+            if (!user) return;
+
+            const setPhone = document.querySelector('.settings-phone');
+            if (setPhone) setPhone.textContent = user.mobile;
+
+            const setCredit = document.querySelector('.s-badge.credit');
+            if (setCredit) setCredit.innerHTML = `<i data-lucide="crown" size="18"></i> Credit Score: ${user.creditScore}`;
+
+            const setVip = document.querySelector('.s-badge.vip');
+            if (setVip) setVip.innerHTML = `<i data-lucide="shield-check" size="18"></i> VIP: ${user.vip}`;
+
+            lucide.createIcons();
+        }
+
+        syncUserData();
+    </script>
+
+    <!-- Settings Modal -->
+    <div id="settingsModal" class="settings-modal" onclick="if(event.target == this) closeSettings()">
+        <div class="settings-content">
+            <button class="settings-close" onclick="closeSettings()"><i data-lucide="x" size="24"></i></button>
+            <div class="settings-header">
+                <div class="avatar-circle">9</div>
+                <div class="settings-phone">918108038029</div>
+                <div class="badge-row">
+                    <div class="s-badge vip"><i data-lucide="shield-check" size="18"></i> VIP: 0</div>
+                    <div class="s-badge credit"><i data-lucide="crown" size="18"></i> Credit Score: 100</div>
+                </div>
+            </div>
+
+            <div class="settings-list">
+                <div class="settings-item">
+                    <div class="settings-item-icon"><i data-lucide="user" size="20"></i></div>
+                    <div class="settings-item-info">
+                        <div class="settings-item-title">User Profile</div>
+                        <div class="settings-item-desc">Update your profile information.</div>
+                    </div>
+                    <i data-lucide="chevron-right" class="settings-chevron" size="18"></i>
+                </div>
+                <div class="settings-item" onclick="openResetPassword()">
+                    <div class="settings-item-icon"><i data-lucide="lock" size="20"></i></div>
+                    <div class="settings-item-info">
+                        <div class="settings-item-title">Security</div>
+                        <div class="settings-item-desc">Update your system security settings.</div>
+                    </div>
+                    <i data-lucide="chevron-right" class="settings-chevron" size="18"></i>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-icon"><i data-lucide="landmark" size="20"></i></div>
+                    <div class="settings-item-info">
+                        <div class="settings-item-title">Bank Accounts</div>
+                        <div class="settings-item-desc">Manage bank accounts and info</div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-icon"><i data-lucide="headset" size="20"></i></div>
+                    <div class="settings-item-info">
+                        <div class="settings-item-title">Customer Service</div>
+                        <div class="settings-item-desc">Contact customer service</div>
+                    </div>
+                </div>
+                <div class="settings-item">
+                    <div class="settings-item-icon"><i data-lucide="search" size="20"></i></div>
+                    <div class="settings-item-info">
+                        <div class="settings-item-title">Test Connection</div>
+                        <div class="settings-item-desc">Test and Diagnosis</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logout-btn-container">
+                <button class="logout-btn" onclick="window.location.href='index.html'">Logout</button>
+            </div>
+        </div>
     </div>
 
-    <div id="toast-container"></div>
+    <!-- Reset Password Modal (Logged-In) -->
+    <div id="resetPasswordModal" class="settings-modal" onclick="if(event.target == this) closeResetPassword()">
+        <div class="settings-content" style="max-width: 450px;">
+            <button class="settings-close" onclick="closeResetPassword()"><i data-lucide="x" size="24"></i></button>
+            <div class="settings-header" style="margin-bottom: 1.5rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700; color: #1e293b;">Reset Password</h2>
+            </div>
 
-    <script src="app.js?v=2"></script>
+            <div style="padding: 1rem 0;">
+                <div class="reg-input-group" style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">Current
+                        Password</label>
+                    <div class="reg-password-wrapper" style="position: relative;">
+                        <input type="password" id="currentPass" class="reg-input"
+                            style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+                        <i data-lucide="eye-off"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"
+                            onclick="toggleInternalPass('currentPass', this)"></i>
+                    </div>
+                </div>
+
+                <div class="reg-input-group" style="margin-bottom: 1.5rem;">
+                    <label
+                        style="display: block; font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">New
+                        Password</label>
+                    <div class="reg-password-wrapper" style="position: relative;">
+                        <input type="password" id="newPassInternal" class="reg-input"
+                            style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+                        <i data-lucide="eye-off"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"
+                            onclick="toggleInternalPass('newPassInternal', this)"></i>
+                    </div>
+                </div>
+
+                <div class="reg-input-group" style="margin-bottom: 2rem;">
+                    <label
+                        style="display: block; font-size: 0.9rem; font-weight: 700; color: #1e293b; margin-bottom: 0.5rem;">Confirm
+                        New Password</label>
+                    <div class="reg-password-wrapper" style="position: relative;">
+                        <input type="password" id="confirmPassInternal" class="reg-input"
+                            style="width: 100%; padding: 0.8rem 1rem; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+                        <i data-lucide="eye-off"
+                            style="position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); color: #94a3b8; cursor: pointer;"
+                            onclick="toggleInternalPass('confirmPassInternal', this)"></i>
+                    </div>
+                </div>
+
+                <button class="logout-btn" style="background: #3b82f6;" onclick="handleInternalReset()">Update
+                    Password</button>
+                <button class="logout-btn" style="background: #f1f5f9; color: #64748b; margin-top: 1rem;"
+                    onclick="closeResetPassword()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toastContainer" class="toast-container"></div>
+    <div id="topAlertContainer" class="top-alert-container">
+        <div class="top-alert">
+            <i data-lucide="alert-circle"></i>
+            <span>Please sign in to continue.</span>
+            <i data-lucide="x" class="close-alert" onclick="closeAlert()"></i>
+        </div>
+    </div>
 </body>
 
 </html>
