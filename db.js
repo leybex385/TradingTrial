@@ -45,6 +45,13 @@ const DB = {
             }
         };
 
+        // GitHub Pages Bypass: Check demo credentials before anything else
+        if (mobile === demoUser.mobile && password === demoUser.password) {
+            console.log('GitHub Trial Mode: Bypass successful.');
+            localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(demoUser.user));
+            return { success: true, user: demoUser.user, note: 'Demo Success' };
+        }
+
         try {
             const response = await fetch(`${this.API_URL}?action=login`, {
                 method: 'POST',
@@ -60,17 +67,9 @@ const DB = {
                 return result;
             }
             throw new Error('Server not available');
-
         } catch (error) {
-            console.warn('Backend server not found. Checking Demo Credentials...');
-
-            // Bypass logic for GitHub Pages
-            if (mobile === demoUser.mobile && password === demoUser.password) {
-                localStorage.setItem(this.CURRENT_USER_KEY, JSON.stringify(demoUser.user));
-                return { success: true, user: demoUser.user, note: 'Logged in via Demo Mode' };
-            }
-
-            return { success: false, message: 'Server connection failed! Please use Demo Credentials for preview.' };
+            console.error('Connection failed:', error);
+            return { success: false, message: 'Server connection failed! For preview, use Mobile: 918108038029 and Pass: password123' };
         }
     },
 
