@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit - Avendus Capital</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background-color: #f1f5f9;
+        }
+
+        .deposit-navbar {
+            background-color: #1e56a0;
+            /* Navy blue from screenshot */
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .deposit-container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2rem;
+        }
+
+        .left-col {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .white-card {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .notice-text {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #475569;
+            margin-bottom: 2rem;
+        }
+
+        .notice-text b {
+            color: #1e293b;
+        }
+
+        .support-btn {
+            display: block;
+            width: 100%;
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 8px;
+            font-weight: 500;
+            text-align: center;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .records-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .records-title {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1e56a0;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .refresh-btn {
+            background: #1e56a0;
+            color: white;
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .filter-pills {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .pill {
+            padding: 0.4rem 1.2rem;
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #64748b;
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .pill.active {
+            background: #1e56a0;
+            color: white;
+            border-color: #1e56a0;
+        }
+
+        .record-item {
+            border: 1px solid #f1f5f9;
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .record-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .record-date {
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .record-amount-cell {
+            text-align: right;
+        }
+
+        .record-amount {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #1e293b;
+            display: block;
+        }
+
+        .status-badge {
+            display: inline-block;
+            margin-top: 0.4rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #10b981;
+            background: #ecfdf5;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+        }
+
+        .status-badge.pending {
+            color: #f59e0b;
+            background: #fffbeb;
+        }
+
+        .status-badge.rejected {
+            color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .terms-col h2 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-content {
+            font-size: 0.8rem;
+            line-height: 1.5;
+            color: #475569;
+        }
+
+        .terms-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .terms-section h3 {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="deposit-navbar">
+        <a href="market.html" class="back-btn"><i data-lucide="chevron-left"></i></a>
+        <h1>Deposit</h1>
+    </header>
+
+    <main class="deposit-container">
+        <div class="left-col">
+            <section class="white-card">
+                <div class="notice-text">
+                    In accordance with <b>the regulations of the Securities and Exchange Board of India (SEBI)</b>, all
+                    institutional trading funds must undergo the required audits and be deposited into approved
+                    regulatory accounts.<br><br>
+                    Before making a deposit, please book an appointment through the Custom Service section in the app or
+                    contact your dedicated relationship manager for assistance.
+                </div>
+                <a href="#" class="support-btn">Contact support</a>
+            </section>
+
+            <section class="white-card">
+                <div class="records-header">
+                    <div class="records-title">
+                        <i data-lucide="circle-dollar-sign"></i> Deposit Records
+                    </div>
+                    <button class="refresh-btn"><i data-lucide="rotate-cw"></i></button>
+                </div>
+
+                <div class="filter-pills">
+                    <span class="pill active">All</span>
+                    <span class="pill">Success</span>
+                    <span class="pill">Pending</span>
+                    <span class="pill">Rejected</span>
+                </div>
+
+                <div class="records-list" id="recordsList">
+                    <!-- Records will be injected here by JavaScript -->
+                </div>
+            </section>
+        </div>
+
+        <aside class="white-card terms-col">
+            <h2>Deposit Terms and Conditions</h2>
+            <div class="terms-content">
+                <div class="terms-section">
+                    <h3>Minimum Deposit Amount</h3>
+                    <p>The minimum amount required for each deposit is subject to the company's policy and may vary
+                        depending on your account type or jurisdiction. Please refer to the current minimum deposit
+                        threshold before initiating a transaction.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>Deposit Time Window</h3>
+                    <p>Deposits are accepted from Monday to Friday (excluding public holidays), between 09:00 and 22:00.
+                        Transactions made outside these hours will be processed on the next working day.</p>
+                </div>
+                <div class="terms-section">
+                    <h3>Account Verification</h3>
+                    <p>All deposits must originate from a verified bank account that matches the registered name on your
+                        trading account. Deposits from third-party accounts, joint accounts, or unverified sources may
+                        be delayed, returned, or rejected in accordance with compliance requirements.</p>
+                </div>
+                <!-- ... other sections matching the screenshot ... -->
+                <div class="terms-section">
+                    <h3>Settlement Time</h3>
+                    <p>Deposits are typically credited within 24 hours of confirmation. However, actual posting times
+                        may vary depending on the remitting bank's policies, payment network congestion, and the
+                        accuracy of the information provided.</p>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        // Data from the user's screenshot
+        const depositData = [
+            { date: '01 Jan 2026 10:23', amount: '₹37,74,250.00', status: 'Approved' },
+            { date: '26 Dec 2025 14:37', amount: '₹8,000.00', status: 'Approved' },
+            { date: '26 Dec 2025 14:20', amount: '₹5,00,000.00', status: 'Approved' },
+            { date: '26 Dec 2025 10:17', amount: '₹6,000.00', status: 'Approved' },
+            { date: '24 Dec 2025 13:51', amount: '₹3,00,000.00', status: 'Approved' },
+            { date: '15 Dec 2025 20:48', amount: '₹2,00,000.00', status: 'Approved' },
+            { date: '11 Dec 2025 21:21', amount: '₹2,50,000.00', status: 'Approved' },
+            { date: '11 Dec 2025 19:39', amount: '₹2,50,000.00', status: 'Approved' },
+            { date: '09 Dec 2025 20:23', amount: '₹2,00,000.00', status: 'Approved' },
+            { date: '09 Dec 2025 19:34', amount: '₹1.00', status: 'Approved' },
+            { date: '02 Feb 2026 09:15', amount: '₹1,50,000.00', status: 'Pending' },
+            { date: '01 Feb 2026 16:40', amount: '₹45,000.00', status: 'Pending' },
+            { date: '31 Jan 2026 11:10', amount: '₹5,00,000.00', status: 'Pending' },
+            { date: '28 Jan 2026 08:30', amount: '₹1,20,000.00', status: 'Rejected' },
+            { date: '25 Jan 2026 12:45', amount: '₹2,500.00', status: 'Rejected' },
+            { date: '20 Jan 2026 15:20', amount: '₹75,000.00', status: 'Rejected' }
+        ];
+
+        function renderRecords(filter = 'All') {
+            const list = document.getElementById('recordsList');
+            list.innerHTML = '';
+
+            // If filter is 'Success' or 'Approved', show all Approved records
+            const filtered = filter === 'All'
+                ? depositData
+                : depositData.filter(r => (filter === 'Success' || filter === 'Approved') ? r.status === 'Approved' : r.status === filter);
+
+            filtered.forEach(record => {
+                const item = document.createElement('div');
+                item.className = 'record-item';
+                item.innerHTML = `
+                    <div class="record-meta">
+                        <span class="record-date">${record.date}</span>
+                    </div>
+                    <div class="record-amount-cell">
+                        <span class="record-amount">${record.amount}</span>
+                        <span class="status-badge ${record.status.toLowerCase()}">${record.status}</span>
+                    </div>
+                `;
+                list.appendChild(item);
+            });
+        }
+
+        // Pill Filtering Logic
+        const pills = document.querySelectorAll('.pill');
+        pills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                pills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                renderRecords(pill.textContent);
+            });
+        });
+
+        // Initial Render
+        renderRecords();
+    </script>
+</body>
+
+</html>
