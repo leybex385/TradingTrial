@@ -1174,11 +1174,15 @@
             </div>
             <nav class="nav-market">
                 <nav class="nav">
-                    <a href="index.html?logged_in=true" class="nav-item active"><i data-lucide="home"></i> Home</a>
-                    <a href="market.html" class="nav-item"><i data-lucide="trending-up"></i> Market</a>
-                    <a href="#" class="nav-item"><i data-lucide="compass"></i> Discover</a>
-                    <a href="#" class="nav-item"><i data-lucide="briefcase"></i> Portfolio</a>
-                    <a href="#" class="nav-item"><i data-lucide="user"></i> Me</a>
+                    <a href="index.html?logged_in=true" class="nav-item active" id="navHome"><i data-lucide="home"></i>
+                        Home</a>
+                    <a href="javascript:void(0)" class="nav-item" id="navMarket"><i data-lucide="trending-up"></i>
+                        Market</a>
+                    <a href="javascript:void(0)" class="nav-item" id="navDiscover"><i data-lucide="compass"></i>
+                        Discover</a>
+                    <a href="javascript:void(0)" class="nav-item" id="navPortfolio"><i data-lucide="briefcase"></i>
+                        Portfolio</a>
+                    <a href="javascript:void(0)" class="nav-item" id="navMe"><i data-lucide="user"></i> Me</a>
                 </nav>
             </nav>
             <div class="header-actions">
@@ -2633,6 +2637,12 @@
 
         <script>
             lucide.createIcons();
+
+            // Navigation Handlers
+            document.getElementById('navMarket').onclick = showMarketView;
+            document.getElementById('navDiscover').onclick = showDiscoverView;
+            document.getElementById('navPortfolio').onclick = showPortfolioView;
+            document.getElementById('navMe').onclick = showMeView;
 
             // Assets Toggle Logic (Main Sidebar)
             let mainAssetsHidden = false;
