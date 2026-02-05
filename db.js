@@ -69,7 +69,10 @@ const DB = {
             throw new Error('Server not available');
         } catch (error) {
             console.error('Connection failed:', error);
-            return { success: false, message: 'Server connection failed! For preview, use Mobile: 918108038029 and Pass: password123' };
+            return {
+                success: false,
+                message: 'SERVER ERROR: Please use Demo Login for GitHub Preview.\n\nMobile: 918108038029\nPass: password123'
+            };
         }
     },
 
