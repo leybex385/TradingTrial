@@ -38,6 +38,7 @@
                     id="navMe"><i data-lucide="user"></i> Me</a>
             </nav>
             <div class="header-right">
+                <button class="settings-btn" onclick="toggleMessageCenter()"><i data-lucide="mail"></i></button>
                 <button class="settings-btn" onclick="openSettings()"><i data-lucide="settings"></i></button>
             </div>
         </header>
@@ -46,7 +47,7 @@
         <div class="video-promo-section">
             <div class="video-container" id="videoWrapper">
                 <video id="promoVideo" loop muted playsinline autoplay
-                    poster="https://images.pexels.com/photos/6780789/pexels-photo-6780789.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+                    poster="https://images.pexels.com/photos/6801874/pexels-photo-6801874.jpeg?auto=compress&cs=tinysrgb&w=3840&h=2160&dpr=1">
                     <source
                         src="https://player.vimeo.com/external/494163966.sd.mp4?s=7b9e6f3d9f285d8d0c83a1d6a9e1e8d9b1c9c8a2&profile_id=164"
                         type="video/mp4">
@@ -352,11 +353,17 @@
                 </section>
 
                 <section class="card recommendation">
-                    <div class="card-header">
-                        <div class="header-icon blue"><i data-lucide="thumbs-up"></i></div>
-                        <h2>Recommendation</h2>
+                    <div class="card-header" id="recommendationHeader"
+                        style="cursor: pointer; display: flex; justify-content: space-between; align-items: center;">
+                        <div style="display: flex; align-items: center; gap: 0.5rem;">
+                            <div class="header-icon blue"><i data-lucide="thumbs-up"></i></div>
+                            <h2>Recommendation</h2>
+                        </div>
+                        <i data-lucide="chevron-down" id="recommendationChevron"
+                            style="transition: transform 0.3s ease;"></i>
                     </div>
-                    <div class="recommendation-list">
+                    <div class="recommendation-list" id="recommendationList"
+                        style="display: none; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out;">
                         <!-- Item 1: Market Trends -->
                         <a href="news-detail.html?title=Global%20Market%20Trends%3A%202026%20Outlook&author=Sarah%20Jenkins&date=Feb%206%2C%202026&img=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1460925895917-afdab827c52f%3Fauto%3Dformat%26fit%3Dcrop%26q%3D80%26w%3D1200"
                             class="rec-item-link">
@@ -720,6 +727,31 @@
     <script>
         lucide.createIcons();
 
+        // Recommendation Toggle Logic
+        const recHeader = document.getElementById('recommendationHeader');
+        const recList = document.getElementById('recommendationList');
+        const recChevron = document.getElementById('recommendationChevron');
+
+        if (recHeader && recList) {
+            recHeader.addEventListener('click', () => {
+                const isHidden = recList.style.display === 'none';
+                if (isHidden) {
+                    recList.style.display = 'block';
+                    // Allow some time for display:block to take effect before measuring/transitioning
+                    setTimeout(() => {
+                        recList.style.maxHeight = '2000px'; // Large enough value
+                        recChevron.style.transform = 'rotate(180deg)';
+                    }, 10);
+                } else {
+                    recList.style.maxHeight = '0';
+                    recChevron.style.transform = 'rotate(0deg)';
+                    setTimeout(() => {
+                        recList.style.display = 'none';
+                    }, 500); // Wait for transition
+                }
+            });
+        }
+
         // --- CAROUSEL FUNCTIONS ---
         let currentSlide = 0;
         const slides = document.querySelectorAll('.news-slide');
@@ -834,6 +866,116 @@
                 toast.style.opacity = '0';
                 setTimeout(() => toast.remove(), 300);
             }, 4000);
+        }
+
+        // Message Center Toggle
+        function toggleMessageCenter() {
+            const mc = document.getElementById('messageCenter');
+            const overlay = document.getElementById('messageCenterOverlay');
+            if (mc.classList.contains('active')) {
+                mc.classList.remove('active');
+                overlay.classList.remove('active');
+            } else {
+                mc.classList.add('active');
+                overlay.classList.add('active');
+                lucide.createIcons();
+            }
+        }
+
+        function deleteAllMessages() {
+            const mcList = document.getElementById('mcList');
+            const msgCount = document.getElementById('msgCount');
+            if (mcList) {
+                mcList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 2rem; font-size: 0.85rem;">No messages</div>';
+            }
+            if (msgCount) {
+                msgCount.innerText = '0 Messages';
+            }
+        }
+
+        function deleteMessage(btn) {
+            const item = btn.closest('.mc-item');
+            if (item) {
+                item.remove();
+                updateMessageCount();
+            }
+        }
+
+        function updateMessageCount() {
+            const mcList = document.getElementById('mcList');
+            const msgCount = document.getElementById('msgCount');
+            const items = mcList.querySelectorAll('.mc-item');
+            if (msgCount) {
+                msgCount.innerText = `${items.length} Messages`;
+            }
+            if (items.length === 0) {
+                mcList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 2rem; font-size: 0.85rem;">No messages</div>';
+            }
+        }
+
+        function makeAllRead() {
+            const dots = document.querySelectorAll('.mc-dot.unread');
+            dots.forEach(dot => dot.classList.remove('unread'));
+        }
+
+        // Customer Service Logic
+        function openCS() {
+            closeSettings();
+            document.getElementById('csModal').style.display = 'flex';
+            loadCSMessages();
+        }
+
+        function closeCS() {
+            document.getElementById('csModal').style.display = 'none';
+        }
+
+        function loadCSMessages() {
+            const user = DB.getCurrentUser();
+            if (!user) return;
+
+            fetch(`api.php?action=getMessages`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id })
+            })
+                .then(res => res.json())
+                .then(msgs => {
+                    const chatBox = document.getElementById('chatBox');
+                    if (!chatBox) return;
+                    chatBox.innerHTML = msgs.map(m => `
+                    <div style="align-self: ${m.sender === 'User' ? 'flex-end' : 'flex-start'}; 
+                                background: ${m.sender === 'User' ? '#3b82f6' : 'white'}; 
+                                color: ${m.sender === 'User' ? 'white' : '#1e293b'}; 
+                                padding: 0.75rem 1rem; 
+                                border-radius: 12px; 
+                                max-width: 80%; 
+                                box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+                                border: ${m.sender === 'Admin' ? '1px solid #e2e8f0' : 'none'};">
+                        ${m.message}
+                    </div>
+                `).join('');
+                    chatBox.scrollTop = chatBox.scrollHeight;
+                });
+        }
+
+        function sendCSMessage() {
+            const input = document.getElementById('csInput');
+            const message = input.value;
+            const user = DB.getCurrentUser();
+            if (!message || !user) return;
+
+            fetch('api.php?action=sendMessage', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ userId: user.id, message: message })
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        input.value = '';
+                        loadCSMessages();
+                    }
+                });
         }
 
         // Settings Modal Logic
@@ -954,7 +1096,7 @@
                         <div class="settings-item-desc">Manage bank accounts and info</div>
                     </div>
                 </div>
-                <div class="settings-item">
+                <div class="settings-item" onclick="openCS()">
                     <div class="settings-item-icon"><i data-lucide="headset" size="20"></i></div>
                     <div class="settings-item-info">
                         <div class="settings-item-title">Customer Service</div>
@@ -1032,12 +1174,108 @@
         </div>
     </div>
 
-    <div id="toastContainer" class="toast-container"></div>
+    <!-- Customer Service Modal -->
+    <div id="csModal" class="settings-modal" onclick="if(event.target == this) closeCS()">
+        <div class="settings-content" style="max-width: 500px; height: 600px; display: flex; flex-direction: column;">
+            <button class="settings-close" onclick="closeCS()"><i data-lucide="x" size="24"></i></button>
+            <div class="settings-header" style="margin-bottom: 1rem;">
+                <h2 style="font-size: 1.5rem; font-weight: 700;">Customer Service</h2>
+            </div>
+
+            <div id="chatBox"
+                style="flex: 1; overflow-y: auto; padding: 1rem; background: #f8fafc; border-radius: 12px; margin-bottom: 1rem; display: flex; flex-direction: column; gap: 0.75rem;">
+                <!-- Messages will appear here -->
+            </div>
+
+            <div style="display: flex; gap: 0.5rem;">
+                <input type="text" id="csInput" placeholder="Type a message..."
+                    style="flex: 1; padding: 0.8rem; border: 1px solid #e2e8f0; border-radius: 8px; outline: none;">
+                <button onclick="sendCSMessage()"
+                    style="background: #3b82f6; color: white; border: none; padding: 0 1.5rem; border-radius: 8px; font-weight: 600; cursor: pointer;">Send</button>
+            </div>
+        </div>
+    </div>
     <div id="topAlertContainer" class="top-alert-container">
         <div class="top-alert">
             <i data-lucide="alert-circle"></i>
             <span>Please sign in to continue.</span>
             <i data-lucide="x" class="close-alert" onclick="closeAlert()"></i>
+        </div>
+    </div>
+    <div id="messageCenterOverlay" class="message-center-overlay" onclick="toggleMessageCenter()"></div>
+    <div id="messageCenter" class="message-center-modal">
+        <div class="mc-header">
+            <div class="mc-title-row">
+                <span class="mc-title">Message Center</span>
+                <span class="mc-subtitle" id="msgCount">10 Messages</span>
+            </div>
+            <button class="mc-close" onclick="toggleMessageCenter()"><i data-lucide="x" size="24"></i></button>
+        </div>
+        <div class="mc-actions">
+            <button class="mc-btn" onclick="makeAllRead()">Make all read</button>
+            <button class="mc-btn delete-all" onclick="deleteAllMessages()">Delete all</button>
+        </div>
+        <div class="mc-list" id="mcList">
+            <!-- Item 1 -->
+            <div class="mc-item">
+                <div class="mc-dot unread"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">IPO Announcement – Armour Security IPO（QIB）</div>
+                    <div class="mc-time">14-01-2026 15:10:23</div>
+                    <div class="mc-tag">IPO:NEW</div>
+                    <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                </div>
+            </div>
+            <!-- Item 2 -->
+            <div class="mc-item">
+                <div class="mc-dot unread"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">Important Notice</div>
+                    <div class="mc-time">12-01-2026 09:32:02</div>
+                    <div class="mc-tag">TEXT</div>
+                    <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                </div>
+            </div>
+            <!-- Item 3 -->
+            <div class="mc-item">
+                <div class="mc-dot unread"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">IPO Listed now!</div>
+                    <div class="mc-time">07-01-2026 10:10:05</div>
+                    <div class="mc-tag">IPO:LIST</div>
+                    <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                </div>
+            </div>
+            <!-- Item 4 -->
+            <div class="mc-item">
+                <div class="mc-dot"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">IPO Listed now!</div>
+                    <div class="mc-time">07-01-2026 10:10:04</div>
+                    <div class="mc-tag">IPO:LIST</div>
+                    <button class="mc-delete-item">Delete</button>
+                </div>
+            </div>
+            <!-- Item 5 -->
+            <div class="mc-item">
+                <div class="mc-dot"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">IPO Listed now!</div>
+                    <div class="mc-time">07-01-2026 10:10:04</div>
+                    <div class="mc-tag">IPO:LIST</div>
+                    <button class="mc-delete-item">Delete</button>
+                </div>
+            </div>
+            <!-- Item 6 -->
+            <div class="mc-item">
+                <div class="mc-dot"></div>
+                <div class="mc-content">
+                    <div class="mc-msg-title">IPO Listed now!</div>
+                    <div class="mc-time">07-01-2026 10:10:04</div>
+                    <div class="mc-tag">IPO:LIST</div>
+                    <button class="mc-delete-item">Delete</button>
+                </div>
+            </div>
         </div>
     </div>
 </body>
