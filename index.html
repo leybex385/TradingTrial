@@ -26,15 +26,16 @@
                 </div>
             </div>
             <nav class="nav">
-                <a href="index.html" class="nav-item active" id="navHome"><i data-lucide="home"></i> Home</a>
-                <a href="javascript:void(0)" onclick="handleGuestClick('market.html')" class="nav-item"><i
-                        data-lucide="trending-up"></i> Market</a>
-                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i
-                        data-lucide="compass"></i> Discover</a>
-                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i
-                        data-lucide="briefcase"></i> Portfolio</a>
-                <a href="javascript:void(0)" onclick="handleGuestClick('#')" class="nav-item"><i data-lucide="user"></i>
-                    Me</a>
+                <a href="index.html" class="nav-item active" id="navHome" onclick="setActiveNav(this)"><i
+                        data-lucide="home"></i> Home</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('market.html'); setActiveNav(this)"
+                    class="nav-item" id="navMarket"><i data-lucide="trending-up"></i> Market</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#'); setActiveNav(this)" class="nav-item"
+                    id="navDiscover"><i data-lucide="compass"></i> Discover</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#'); setActiveNav(this)" class="nav-item"
+                    id="navPortfolio"><i data-lucide="briefcase"></i> Portfolio</a>
+                <a href="javascript:void(0)" onclick="handleGuestClick('#'); setActiveNav(this)" class="nav-item"
+                    id="navMe"><i data-lucide="user"></i> Me</a>
             </nav>
             <div class="header-right">
                 <button class="settings-btn" onclick="openSettings()"><i data-lucide="settings"></i></button>
@@ -791,6 +792,11 @@
         }
 
         // Guest Interaction Logic
+        function setActiveNav(element) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+        }
+
         function handleGuestClick(targetUrl) {
             if (isLoggedIn) {
                 if (targetUrl !== '#') window.location.href = targetUrl;
