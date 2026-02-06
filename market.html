@@ -1187,7 +1187,8 @@
                 </nav>
             </nav>
             <div class="header-actions">
-                <div class="action-icon"><i data-lucide="mail"></i></div>
+                <div class="action-icon" style="cursor: pointer;" onclick="toggleMessageCenter()"><i
+                        data-lucide="mail"></i></div>
                 <div class="action-icon" style="cursor: pointer;" onclick="openSettings()"><i
                         data-lucide="settings"></i></div>
             </div>
@@ -1316,27 +1317,30 @@
                             <div class="index-head">
                                 <img src="https://flagcdn.com/w20/in.png" width="16">
                                 <span class="index-name">SENSEX</span>
+                                <i id="iconSensex" size="14"></i>
                             </div>
-                            <div class="index-val">83,373.74</div>
-                            <div class="index-chg red">-443.95 (-0.53%)</div>
+                            <div class="index-val" id="valSensexCard">83,373.74</div>
+                            <div class="index-chg red" id="chgSensexCard">-443.95 (-0.53%)</div>
                         </div>
                         <div class="index-card" id="cardNifty"
                             onclick="updateChart('NSE:NIFTY', 'NIFTY 50 (NSE Index Live)')">
                             <div class="index-head">
                                 <img src="https://flagcdn.com/w20/in.png" width="16">
                                 <span class="index-name">NIFTY 50</span>
+                                <i id="iconNifty" size="14"></i>
                             </div>
-                            <div class="index-val">25,641.65</div>
-                            <div class="index-chg red">-134.35 (-0.52%)</div>
+                            <div class="index-val" id="valNiftyCard">25,641.65</div>
+                            <div class="index-chg red" id="chgNiftyCard">-134.35 (-0.52%)</div>
                         </div>
                         <div class="index-card" id="cardNiftyBank"
                             onclick="updateChart('NSE:BANKNIFTY', 'NIFTY BANK (NSE Index Live)')">
                             <div class="index-head">
                                 <img src="https://flagcdn.com/w20/in.png" width="16">
                                 <span class="index-name">NIFTY BANK</span>
+                                <i id="iconBankNifty" size="14"></i>
                             </div>
-                            <div class="index-val">60,045.35</div>
-                            <div class="index-chg red">-192.8 (-0.32%)</div>
+                            <div class="index-val" id="valBankNiftyCard">60,045.35</div>
+                            <div class="index-chg red" id="chgBankNiftyCard">-192.8 (-0.32%)</div>
                         </div>
                     </section>
 
@@ -1412,6 +1416,50 @@
                                 <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
                                 <script type="text/javascript">
                                     let currentWidget = null;
+                                    let currentActiveSymbol = 'BSE:SENSEX';
+
+                                    const indexData = {
+                                        'BSE:SENSEX': {
+                                            price: 83373.74,
+                                            basePrice: 83817.69,
+                                            low: 83250.27,
+                                            high: 83784.17,
+                                            open: 83757.54,
+                                            close: 83817.69,
+                                            vol: "14,913,178",
+                                            sym: "SENSEX",
+                                            cardValId: 'valSensexCard',
+                                            cardChgId: 'chgSensexCard',
+                                            iconId: 'iconSensex'
+                                        },
+                                        'NSE:NIFTY': {
+                                            price: 25641.65,
+                                            basePrice: 25776.00,
+                                            low: 25600.00,
+                                            high: 25800.00,
+                                            open: 25750.00,
+                                            close: 25776.00,
+                                            vol: "22,450,112",
+                                            sym: "NIFTY 50",
+                                            cardValId: 'valNiftyCard',
+                                            cardChgId: 'chgNiftyCard',
+                                            iconId: 'iconNifty'
+                                        },
+                                        'NSE:BANKNIFTY': {
+                                            price: 60045.35,
+                                            basePrice: 60238.15,
+                                            low: 59500.00,
+                                            high: 60500.00,
+                                            open: 60200.00,
+                                            close: 60238.15,
+                                            vol: "8,124,556",
+                                            sym: "NIFTY BANK",
+                                            cardValId: 'valBankNiftyCard',
+                                            cardChgId: 'chgBankNiftyCard',
+                                            iconId: 'iconBankNifty'
+                                        }
+                                    };
+
                                     function loadWidget(symbol) {
                                         currentWidget = new TradingView.widget({
                                             "autosize": true,
@@ -1429,88 +1477,106 @@
                                     }
 
                                     function updateChart(symbol, title) {
+                                        currentActiveSymbol = symbol;
                                         document.getElementById('chartTitle').innerText = title;
                                         document.querySelectorAll('.index-card').forEach(c => c.classList.remove('active'));
 
-                                        let data = {
-                                            price: "0.00",
-                                            change: "0.00 (0%)",
-                                            isUp: false,
-                                            low: 0,
-                                            high: 0,
-                                            open: 0,
-                                            close: 0,
-                                            vol: "0",
-                                            sym: "INDEX"
-                                        };
+                                        if (symbol === 'BSE:SENSEX') document.getElementById('cardSensex').classList.add('active');
+                                        else if (symbol === 'NSE:NIFTY') document.getElementById('cardNifty').classList.add('active');
+                                        else if (symbol === 'NSE:BANKNIFTY') document.getElementById('cardNiftyBank').classList.add('active');
 
-                                        if (symbol === 'BSE:SENSEX') {
-                                            document.getElementById('cardSensex').classList.add('active');
-                                            data = {
-                                                price: "83,373.74",
-                                                change: "-443.95 (-0.53%)",
-                                                isUp: false,
-                                                low: 83250.27,
-                                                high: 83784.17,
-                                                open: 83757.54,
-                                                close: 83817.69,
-                                                vol: "14,913,178",
-                                                sym: "SENSEX"
-                                            };
-                                        } else if (symbol === 'NSE:NIFTY') {
-                                            document.getElementById('cardNifty').classList.add('active');
-                                            data = {
-                                                price: "25,641.65",
-                                                change: "-134.35 (-0.52%)",
-                                                isUp: false,
-                                                low: 25600.00,
-                                                high: 25800.00,
-                                                open: 25750.00,
-                                                close: 25776.00,
-                                                vol: "22,450,112",
-                                                sym: "NIFTY 50"
-                                            };
-                                        } else if (symbol === 'NSE:BANKNIFTY') {
-                                            document.getElementById('cardNiftyBank').classList.add('active');
-                                            data = {
-                                                price: "60,045.35",
-                                                change: "-192.80 (-0.32%)",
-                                                isUp: false,
-                                                low: 59500.00,
-                                                high: 60500.00,
-                                                open: 60200.00,
-                                                close: 60238.15,
-                                                vol: "8,124,556",
-                                                sym: "NIFTY BANK"
-                                            };
-                                        }
-
-                                        // Update Hero
-                                        document.getElementById('indexPrice').innerText = data.price;
-                                        const heroChg = document.getElementById('heroChange');
-                                        heroChg.innerText = data.change;
-                                        heroChg.className = `index-chg ${data.isUp ? 'green' : 'red'}`;
-
-                                        // Update Slider & Labels
-                                        document.getElementById('dayLow').innerText = data.low.toLocaleString('en-IN');
-                                        document.getElementById('dayHigh').innerText = data.high.toLocaleString('en-IN');
-
-                                        const currentPriceNum = parseFloat(data.price.replace(/,/g, ''));
-                                        const pct = ((currentPriceNum - data.low) / (data.high - data.low)) * 100;
-                                        document.getElementById('sliderMarker').style.left = `${Math.max(0, Math.min(100, pct))}%`;
-
-                                        // Update Info Grid
-                                        document.getElementById('valSymbol').innerText = data.sym;
-                                        document.getElementById('gridHigh').innerText = data.high.toLocaleString('en-IN');
-                                        document.getElementById('gridLow').innerText = data.low.toLocaleString('en-IN');
-                                        document.getElementById('gridOpen').innerText = data.open.toLocaleString('en-IN');
-                                        document.getElementById('gridClose').innerText = data.close.toLocaleString('en-IN');
-                                        document.getElementById('valVol').innerText = data.vol;
-
+                                        syncUI();
                                         loadWidget(symbol);
                                     }
 
+                                    function syncUI() {
+                                        for (const sym in indexData) {
+                                            const d = indexData[sym];
+                                            const diff = d.price - d.basePrice;
+                                            const pct = (diff / d.basePrice) * 100;
+                                            const isUp = diff >= 0;
+                                            const colorClass = isUp ? 'green' : 'red';
+                                            const sign = isUp ? '+' : '';
+                                            const changeText = `${sign}${diff.toFixed(2)} (${sign}${pct.toFixed(2)}%)`;
+                                            const formattedPrice = d.price.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
+                                            // Update top cards
+                                            if (document.getElementById(d.cardValId)) {
+                                                document.getElementById(d.cardValId).innerText = formattedPrice;
+                                                const cardChg = document.getElementById(d.cardChgId);
+                                                cardChg.innerText = changeText;
+                                                cardChg.className = `index-chg ${colorClass}`;
+
+                                                // Update Icon
+                                                const iconEl = document.getElementById(d.iconId);
+                                                if (iconEl) {
+                                                    const targetIcon = isUp ? 'trending-up' : 'trending-down';
+                                                    if (iconEl.getAttribute('data-lucide') !== targetIcon) {
+                                                        iconEl.setAttribute('data-lucide', targetIcon);
+                                                        iconEl.style.color = isUp ? 'var(--green-up)' : 'var(--red-down)';
+                                                        if (window.lucide) lucide.createIcons();
+                                                    }
+                                                }
+                                            }
+
+                                            // Update Hero (only if active)
+                                            if (sym === currentActiveSymbol) {
+                                                document.getElementById('indexPrice').innerText = formattedPrice;
+                                                const heroChg = document.getElementById('heroChange');
+                                                heroChg.innerText = changeText;
+                                                heroChg.className = `index-chg ${colorClass}`;
+
+                                                document.getElementById('dayLow').innerText = d.low.toLocaleString('en-IN');
+                                                document.getElementById('dayHigh').innerText = d.high.toLocaleString('en-IN');
+
+                                                const sliderPct = ((d.price - d.low) / (d.high - d.low)) * 100;
+                                                document.getElementById('sliderMarker').style.left = `${Math.max(0, Math.min(100, sliderPct))}%`;
+
+                                                document.getElementById('valSymbol').innerText = d.sym;
+                                                document.getElementById('gridHigh').innerText = d.high.toLocaleString('en-IN');
+                                                document.getElementById('gridLow').innerText = d.low.toLocaleString('en-IN');
+                                                document.getElementById('gridOpen').innerText = d.open.toLocaleString('en-IN');
+                                                document.getElementById('gridClose').innerText = d.close.toLocaleString('en-IN');
+                                                document.getElementById('valVol').innerText = d.vol;
+
+                                                // Update Advances/Declines Synchronization (Simulated correlation)
+                                                if (d.sym === "SENSEX") {
+                                                    const adv = Math.floor(15 + (pct * 5)); // Increase advances if pct is positive
+                                                    const dec = 22 - adv;
+                                                    const safeAdv = Math.max(1, Math.min(21, adv));
+                                                    const safeDec = 22 - safeAdv;
+
+                                                    const advancesEl = document.getElementById('valAdvances');
+                                                    const declinesEl = document.getElementById('valDeclines');
+                                                    const barAdv = document.getElementById('barAdvances');
+                                                    const barDec = document.getElementById('barDeclines');
+
+                                                    if (advancesEl) advancesEl.innerText = safeAdv;
+                                                    if (declinesEl) declinesEl.innerText = safeDec;
+                                                    if (barAdv) barAdv.style.flex = safeAdv;
+                                                    if (barDec) barDec.style.flex = safeDec;
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    function startSimulation() {
+                                        setInterval(() => {
+                                            for (const sym in indexData) {
+                                                const d = indexData[sym];
+                                                const change = (Math.random() - 0.5) * (d.price * 0.0003); // Slight fluctuation
+                                                d.price += change;
+
+                                                // Keep within day range
+                                                if (d.price < d.low) d.price = d.low + Math.abs(change);
+                                                if (d.price > d.high) d.price = d.high - Math.abs(change);
+                                            }
+                                            syncUI();
+                                        }, 2000);
+                                    }
+
                                     updateChart("BSE:SENSEX", "SENSEX (BSE Index Live)");
+                                    startSimulation();
                                 </script>
                             </div>
                         </div>
@@ -2121,12 +2187,17 @@
 
                     <div
                         style="display: flex; justify-content: space-between; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem;">
-                        <span style="color: #10b981;"><i data-lucide="arrow-up" size="14"></i> 18 Advances</span>
-                        <span style="color: #ef4444;">4 Declines <i data-lucide="arrow-down" size="14"></i></span>
+                        <span style="color: #10b981;"><i data-lucide="arrow-up" size="14"></i> <span
+                                id="valAdvances">18</span> Advances</span>
+                        <span style="color: #ef4444;"><span id="valDeclines">4</span> Declines <i
+                                data-lucide="arrow-down" size="14"></i></span>
                     </div>
-                    <div class="advances-bar">
-                        <div class="adv-green" style="flex: 18;"></div>
-                        <div class="adv-red" style="flex: 4;"></div>
+                    <div class="advances-bar"
+                        style="display: flex; height: 8px; background: #f1f5f9; border-radius: 4px; overflow: hidden;">
+                        <div id="barAdvances" class="adv-green"
+                            style="background: #10b981; transition: flex 0.5s ease;"></div>
+                        <div id="barDeclines" class="adv-red" style="background: #ef4444; transition: flex 0.5s ease;">
+                        </div>
                     </div>
 
                     <div style="margin-top: 1.5rem;">
@@ -3032,6 +3103,55 @@
             });
 
             // Settings Modal Logic
+            function toggleMessageCenter() {
+                const mc = document.getElementById('messageCenter');
+                const overlay = document.getElementById('messageCenterOverlay');
+                if (mc.classList.contains('active')) {
+                    mc.classList.remove('active');
+                    overlay.classList.remove('active');
+                } else {
+                    mc.classList.add('active');
+                    overlay.classList.add('active');
+                    lucide.createIcons();
+                }
+            }
+
+            function deleteAllMessages() {
+                const mcList = document.getElementById('mcList');
+                const msgCount = document.getElementById('msgCount');
+                if (mcList) {
+                    mcList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 2rem; font-size: 0.85rem;">No messages</div>';
+                }
+                if (msgCount) {
+                    msgCount.innerText = '0 Messages';
+                }
+            }
+
+            function deleteMessage(btn) {
+                const item = btn.closest('.mc-item');
+                if (item) {
+                    item.remove();
+                    updateMessageCount();
+                }
+            }
+
+            function updateMessageCount() {
+                const mcList = document.getElementById('mcList');
+                const msgCount = document.getElementById('msgCount');
+                const items = mcList.querySelectorAll('.mc-item');
+                if (msgCount) {
+                    msgCount.innerText = `${items.length} Messages`;
+                }
+                if (items.length === 0) {
+                    mcList.innerHTML = '<div style="text-align: center; color: #94a3b8; padding: 2rem; font-size: 0.85rem;">No messages</div>';
+                }
+            }
+
+            function makeAllRead() {
+                const dots = document.querySelectorAll('.mc-dot.unread');
+                dots.forEach(dot => dot.classList.remove('unread'));
+            }
+
             function openSettings() {
                 document.getElementById('settingsModal').style.display = 'flex';
                 lucide.createIcons();
@@ -3149,6 +3269,82 @@
             renderStocks('losers', 'NSE');
             renderFundRecords('all');
         </script>
+        <div id="messageCenterOverlay" class="message-center-overlay" onclick="toggleMessageCenter()"></div>
+        <div id="messageCenter" class="message-center-modal">
+            <div class="mc-header">
+                <div class="mc-title-row">
+                    <span class="mc-title">Message Center</span>
+                    <span class="mc-subtitle" id="msgCount">10 Messages</span>
+                </div>
+                <button class="mc-close" onclick="toggleMessageCenter()"><i data-lucide="x" size="24"></i></button>
+            </div>
+            <div class="mc-actions">
+                <button class="mc-btn" onclick="makeAllRead()">Make all read</button>
+                <button class="mc-btn delete-all" onclick="deleteAllMessages()">Delete all</button>
+            </div>
+            <div class="mc-list" id="mcList">
+                <!-- Item 1 -->
+                <div class="mc-item">
+                    <div class="mc-dot unread"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">IPO Announcement – Armour Security IPO（QIB）</div>
+                        <div class="mc-time">14-01-2026 15:10:23</div>
+                        <div class="mc-tag">IPO:NEW</div>
+                        <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                    </div>
+                </div>
+                <!-- Item 2 -->
+                <div class="mc-item">
+                    <div class="mc-dot unread"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">Important Notice</div>
+                        <div class="mc-time">12-01-2026 09:32:02</div>
+                        <div class="mc-tag">TEXT</div>
+                        <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                    </div>
+                </div>
+                <!-- Item 3 -->
+                <div class="mc-item">
+                    <div class="mc-dot unread"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">IPO Listed now!</div>
+                        <div class="mc-time">07-01-2026 10:10:05</div>
+                        <div class="mc-tag">IPO:LIST</div>
+                        <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                    </div>
+                </div>
+                <!-- Item 4 -->
+                <div class="mc-item">
+                    <div class="mc-dot"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">IPO Listed now!</div>
+                        <div class="mc-time">07-01-2026 10:10:04</div>
+                        <div class="mc-tag">IPO:LIST</div>
+                        <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                    </div>
+                </div>
+                <!-- Item 5 -->
+                <div class="mc-item">
+                    <div class="mc-dot"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">IPO Listed now!</div>
+                        <div class="mc-time">07-01-2026 10:10:04</div>
+                        <div class="mc-tag">IPO:LIST</div>
+                        <button class="mc-delete-item" onclick="deleteMessage(this)">Delete</button>
+                    </div>
+                </div>
+                <!-- Item 6 -->
+                <div class="mc-item">
+                    <div class="mc-dot"></div>
+                    <div class="mc-content">
+                        <div class="mc-msg-title">IPO Listed now!</div>
+                        <div class="mc-time">07-01-2026 10:10:04</div>
+                        <div class="mc-tag">IPO:LIST</div>
+                        <button class="mc-delete-item">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
