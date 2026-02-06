@@ -100,6 +100,6 @@ const DB = {
     // Logout
     logout() {
         localStorage.removeItem(this.CURRENT_USER_KEY);
-        window.location.href = 'login.html';
+        window.location.href = 'index.html';
     }
 };
