@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News Detail - Avendus Capital</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body {
+            background-color: var(--bg-orange);
+            /* Orange background from screenshot */
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            color: #333;
+        }
+
+        /* Back Button */
+        .back-btn {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            z-index: 100;
+            border: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .hero-section {
+            width: 100%;
+            height: 400px;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.8));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+            /* Centered title based on screenshot layout structure */
+            padding-bottom: 60px;
+            /* Space for the overlapping card */
+        }
+
+        .hero-title {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 1rem 1rem 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-meta {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.7rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Content Card */
+        .content-card {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            margin: -40px auto 40px auto;
+            /* Negative top margin to overlap */
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .author-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 1rem;
+        }
+
+        .author-avatar {
+            width: 40px;
+            height: 40px;
+            background: #1e293b;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+
+        .author-text h4 {
+            margin: 0;
+            font-size: 0.95rem;
+            color: #0f172a;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .author-text span {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .article-body {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #334155;
+        }
+
+        .article-body p {
+            margin-bottom: 1.5rem;
+        }
+
+        /* Contact/Chat Widget Placeholder from screenshot (optional but nice) */
+        .contact-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 0;
+            background: #0ea5e9;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px 0 0 8px;
+            font-weight: 600;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: -2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+
+<body>
+
+    <button class="back-btn" onclick="history.back()"><i data-lucide="chevron-left"></i></button>
+
+    <div class="hero-section" id="heroBg">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <div class="hero-meta">
+                <span class="badge">Business</span>
+                <span id="heroDate">16 minutes ago</span>
+            </div>
+            <h1 class="hero-title" id="articleTitle">Loading...</h1>
+        </div>
+    </div>
+
+    <div class="content-card">
+        <div class="author-info">
+            <div class="author-avatar" id="authorInitials">TR</div>
+            <div class="author-text">
+                <h4 id="authorName">Tristan Rich</h4>
+                <span id="fullDate">Feb 6, 2026, 09:42 PM</span>
+            </div>
+        </div>
+
+        <div class="article-body" id="articleContent">
+            Loading content...
+        </div>
+    </div>
+
+    <div class="contact-widget">
+        <span>Contact</span>
+        <span>us</span>
+        <i data-lucide="message-circle" style="margin-top:5px"></i>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        // Safe decode utility
+        function safeDecode(str) {
+            try {
+                return decodeURIComponent(str);
+            } catch (e) {
+                return str;
+            }
+        }
+
+        // Parse URL params
+        const params = new URLSearchParams(window.location.search);
+
+        const title = safeDecode(params.get('title') || 'Market Notice');
+        const author = safeDecode(params.get('author') || 'Admin');
+        const date = safeDecode(params.get('date') || 'Just now');
+        const img = safeDecode(params.get('img') || 'https://images.unsplash.com/photo-1611974765270-ca1258634369?auto=format&fit=crop&q=80&w=1200');
+        const content = safeDecode(params.get('content') || '');
+
+        // Default content text if no content param provided
+        const defaultText = `Guinness Atkinson Asset Management Inc bought a new stake in shares of Trane Technologies plc (NYSE:TT – Free Report) during the 3rd quarter, according to its most recent Form 13F filing with the Securities and Exchange Commission (SEC). The fund bought 2,159 shares of the company's stock, valued at approximately $895,000.<br><br>A number of other hedge funds and other institutional investors also recently made changes to their positions in the business. Icon Advisers Inc. Co. bought a new stake in shares of Trane Technologies during the 2nd quarter valued at about $26,000. Financial Consulate Inc. purchased a new stake in Trane Technologies in the third quarter worth about $25,000.<br><br>Hantz Financial Services Inc. boosted its position in Trane Technologies by 1,016.7% during the 2nd quarter. Hantz Financial Services Inc. now owns 67 shares of the company's stock valued at $29,000 after acquiring an additional 61 shares in the last quarter.<br><br>This strategic move highlights the growing confidence in sustainable infrastructure solutions and the long-term value proposition of the sector. Investors are advised to monitor quarterly reports for further consolidations in this space.`;
+
+        // Render Data
+        document.title = title + " - Avendus";
+        document.getElementById('articleTitle').textContent = title;
+        document.getElementById('authorName').textContent = author;
+        document.getElementById('heroDate').textContent = date;
+        document.getElementById('fullDate').textContent = date;
+        document.getElementById('heroBg').style.backgroundImage = `url('${img}')`;
+
+        // Initials
+        const names = author.split(' ');
+        let initials = names[0][0];
+        if (names.length > 1) initials += names[names.length - 1][0];
+        document.getElementById('authorInitials').textContent = initials;
+
+        // Use content from URL or default
+        document.getElementById('articleContent').innerHTML = content ? content.replace(/\n/g, '<br><br>') : defaultText;
+
+    </script>
+</body>
+
+</html>
